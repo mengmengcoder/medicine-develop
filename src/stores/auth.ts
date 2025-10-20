@@ -59,19 +59,28 @@ export const useAuthStore = defineStore('auth', () => {
       isLoading.value = true
       const { data, error } = await authService.signUp(email, password, metadata)
       
-      if (error) throw error
+      if (error) {
+        console.error('注册错误:', error)
+        throw new Error(error.message || '注册失败')
+      }
 
       // 如果注册成功且需要邮箱验证，创建用户记录
       if (data.user) {
-        await dbService.insert<User>('users', {
-          email: data.user.email!,
-          name: metadata?.name || data.user.email!.split('@')[0],
-          role: 'researcher'
-        })
+        try {
+          await dbService.insert<User>('users', {
+            email: data.user.email!,
+            name: metadata?.name || data.user.email!.split('@')[0],
+            role: 'researcher'
+          })
+        } catch (dbError) {
+          console.error('创建用户记录失败:', dbError)
+          // 不抛出错误，因为认证已经成功
+        }
       }
 
       return data
     } catch (error) {
+      console.error('注册过程错误:', error)
       throw error
     } finally {
       isLoading.value = false

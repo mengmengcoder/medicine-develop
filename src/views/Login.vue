@@ -245,11 +245,29 @@ const handleRegister = async () => {
     await registerFormRef.value.validate(async (valid) => {
       if (valid) {
         registerLoading.value = true
-        await authStore.register(registerForm.email, registerForm.password, {
+        const result = await authStore.register(registerForm.email, registerForm.password, {
           name: registerForm.name
         })
-        ElMessage.success('注册成功，请检查邮箱验证邮件')
-        activeTab.value = 'login'
+        
+        // 检查注册结果
+        if (result?.user) {
+          if (result.user.identities && result.user.identities.length === 0) {
+            // 用户已存在
+            ElMessage.warning('该邮箱已被注册，请直接登录')
+            activeTab.value = 'login'
+          } else if (result.user.confirmed_at) {
+            // 邮箱已验证，直接跳转
+            ElMessage.success('注册成功！正在跳转...')
+            await authStore.login(registerForm.email, registerForm.password)
+            router.push('/dashboard')
+          } else {
+            // 需要邮箱验证
+            ElMessage.success('注册成功！请检查邮箱验证邮件')
+            activeTab.value = 'login'
+          }
+        } else {
+          ElMessage.success('注册请求已发送，请检查邮箱')
+        }
         
         // 清空注册表单
         Object.assign(registerForm, {
@@ -260,8 +278,21 @@ const handleRegister = async () => {
         })
       }
     })
-  } catch (error) {
-    ElMessage.error((error as Error).message)
+  } catch (error: any) {
+    console.error('注册错误详情:', error)
+    
+    // 更详细的错误提示
+    if (error.message?.includes('User already registered')) {
+      ElMessage.error('该邮箱已被注册，请直接登录或使用其他邮箱')
+    } else if (error.message?.includes('Invalid email')) {
+      ElMessage.error('邮箱格式不正确，请检查后重试')
+    } else if (error.message?.includes('Password should be at least')) {
+      ElMessage.error('密码强度不足，请使用更复杂的密码')
+    } else if (error.message?.includes('Email rate limit')) {
+      ElMessage.error('发送邮件过于频繁，请稍后再试')
+    } else {
+      ElMessage.error(error.message || '注册失败，请检查网络连接后重试')
+    }
   } finally {
     registerLoading.value = false
   }

@@ -1,0 +1,43 @@
+{
+  "netlify": {
+    "buildCommand": "npm run build",
+    "publishDirectory": "dist",
+    "environmentVariables": {
+      "VITE_SUPABASE_URL": {
+        "description": "Supabase项目URL",
+        "required": true,
+        "value": "https://bfuevkijuwkqwzhoelpp.supabase.co"
+      },
+      "VITE_SUPABASE_KEY": {
+        "description": "Supabase匿名密钥",
+        "required": true,
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmdWV2a2lqdXdrcXd6aG9lbHBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4Nzg2OTgsImV4cCI6MjA3NjQ1NDY5OH0.ZnU3K5wcYtQONFgIf68yyNFjfd7ZUVNlNuOtJ4RQlU4"
+      },
+      "VITE_API_BASE_URL": {
+        "description": "API基础URL",
+        "required": false,
+        "value": "/api"
+      },
+      "VITE_ENABLE_DEV_TOOLS": {
+        "description": "是否启用开发工具",
+        "required": false,
+        "value": "false"
+      }
+    }
+  },
+  "supabase": {
+    "projectId": "bfuevkijuwkqwzhoelpp",
+    "region": "未知",
+    "database": {
+      "host": "db.bfuevkijuwkqwzhoelpp.supabase.co",
+      "port": 5432
+    },
+    "auth": {
+      "siteUrl": "https://bfuevkijuwkqwzhoelpp.supabase.co",
+      "redirectUrls": [
+        "http://localhost:3000",
+        "https://your-netlify-site.netlify.app"
+      ]
+    }
+  }
+}
