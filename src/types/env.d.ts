@@ -13,6 +13,8 @@ interface ImportMetaEnv {
   readonly VITE_LOG_LEVEL: string
   readonly VITE_MAX_UPLOAD_SIZE: string
   readonly VITE_ENABLE_DEV_TOOLS: string
+  readonly VITE_SUPABASE_URL: string
+  readonly VITE_SUPABASE_KEY: string
 }
 
 interface ImportMeta {

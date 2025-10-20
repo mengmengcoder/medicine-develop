@@ -119,7 +119,13 @@ const routes: RouteRecordRaw[] = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/Login.vue'),
-    meta: { title: '登录', hideInMenu: true }
+    meta: { title: '登录', hideInMenu: true, requiresAuth: false }
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import('@/views/Register.vue'),
+    meta: { title: '注册', hideInMenu: true, requiresAuth: false }
   },
   {
     path: '/:pathMatch(.*)*',
@@ -142,16 +148,32 @@ const router = createRouter({
 })
 
 // 路由守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // 设置页面标题
   document.title = to.meta.title ? `${to.meta.title} - 药物研发平台` : '药物研发平台'
   
-  // 这里可以添加登录验证逻辑
-  // if (to.name !== 'Login' && !isAuthenticated) {
-  //   next({ name: 'Login' })
-  // } else {
+  // 导入认证store
+  const { useAuthStore } = await import('@/stores/auth')
+  const authStore = useAuthStore()
+  
+  // 初始化认证状态
+  if (!authStore.isAuthenticated) {
+    await authStore.checkAuth()
+  }
+
+  // 检查是否需要认证
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth !== false)
+  const isAuthPage = to.name === 'Login' || to.name === 'Register' || to.name === 'ResetPassword'
+  
+  if (requiresAuth && !authStore.isAuthenticated && !isAuthPage) {
+    // 需要认证但未登录，重定向到登录页
+    next({ name: 'Login' })
+  } else if (isAuthPage && authStore.isAuthenticated) {
+    // 已登录但访问认证页面，重定向到首页
+    next({ name: 'Dashboard' })
+  } else {
     next()
-  // }
+  }
 })
 
 export default router

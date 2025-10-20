@@ -1,0 +1,93 @@
+{
+  "mcpServers": {
+    "drug-discovery": {
+      "command": "node",
+      "args": [
+        "./mcp-server.js"
+      ],
+      "env": {
+        "SUPABASE_URL": "https://bfuevkijuwkqwzhoelpp.supabase.co",
+        "SUPABASE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmdWV2a2lqdXdrcXd6aG9lbHBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA4Nzg2OTgsImV4cCI6MjA3NjQ1NDY5OH0.ZnU3K5wcYtQONFgIf68yyNFjfd7ZUVNlNuOtJ4RQlU4",
+        "NODE_ENV": "development"
+      }
+    }
+  },
+  "drugDiscoveryConfig": {
+    "projectRoot": "d:/code/medicine-develop",
+    "framework": "vue3",
+    "language": "typescript",
+    "features": {
+      "moleculeGeneration": true,
+      "multiObjectiveOptimization": true,
+      "virtualScreening": true,
+      "authentication": true,
+      "realTimeUpdates": true
+    },
+    "apiEndpoints": {
+      "baseUrl": "/api/v1",
+      "moleculeGeneration": "/molecules/generate",
+      "optimization": "/optimization/run",
+      "screening": "/screening/run",
+      "authentication": "/auth"
+    },
+    "database": {
+      "provider": "supabase",
+      "tables": [
+        "users",
+        "molecule_generation_tasks",
+        "multi_objective_optimization_tasks",
+        "virtual_screening_tasks",
+        "molecules",
+        "models"
+      ]
+    },
+    "fileStructure": {
+      "components": "src/components",
+      "views": "src/views",
+      "services": "src/services",
+      "stores": "src/stores",
+      "types": "src/types",
+      "utils": "src/utils"
+    }
+  },
+  "codeGeneration": {
+    "templates": {
+      "component": {
+        "framework": "vue3",
+        "style": "scoped",
+        "typeScript": true,
+        "autoImports": true
+      },
+      "service": {
+        "httpClient": "axios",
+        "errorHandling": true,
+        "typeScript": true
+      },
+      "store": {
+        "stateManagement": "pinia",
+        "typeScript": true,
+        "persistence": true
+      }
+    },
+    "conventions": {
+      "naming": "camelCase",
+      "fileExtensions": [".vue", ".ts"],
+      "importAlias": "@/"
+    }
+  },
+  "development": {
+    "server": {
+      "port": 5173,
+      "host": "localhost"
+    },
+    "build": {
+      "outputDir": "dist",
+      "assetsDir": "assets"
+    },
+    "linting": {
+      "eslint": true,
+      "prettier": true,
+      "typeScript": true
+    }
+  }
+}

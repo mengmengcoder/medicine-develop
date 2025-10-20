@@ -13,20 +13,22 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "vue": "^3.4.0",
-    "vue-router": "^4.2.5",
-    "pinia": "^2.1.7",
-    "element-plus": "^2.4.4",
-    "echarts": "^5.4.3",
-    "vue-echarts": "^6.6.1",
+    "@element-plus/icons-vue": "^2.3.1",
+    "@modelcontextprotocol/sdk": "^1.20.1",
+    "@supabase/supabase-js": "^2.75.1",
     "3dmol": "^2.0.4",
     "axios": "^1.6.2",
-    "@element-plus/icons-vue": "^2.3.1",
-    "lodash-es": "^4.17.21"
+    "echarts": "^5.4.3",
+    "element-plus": "^2.4.4",
+    "lodash-es": "^4.17.21",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.0",
+    "vue-echarts": "^6.6.1",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "@types/node": "^20.10.5",
     "@types/lodash-es": "^4.17.12",
+    "@types/node": "^20.10.5",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
     "@vitejs/plugin-vue": "^4.5.2",
